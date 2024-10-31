@@ -1,0 +1,348 @@
+/* ==UserStyle==
+@name         Cirno for Docs
+@version      2024.0009
+@namespace    userstyles.world/user/Spaghs
+@description  Some small changes for docs style. The colors and the background image can be changed in the configuration.
+@author       Spagh
+
+@advanced checkbox head1 "--------------header--------------" 0
+@advanced checkbox title-lights "Title backlights" 1
+@advanced color header-color "Header font color" #FFF
+@advanced color theme-color "Theme color" #023
+
+@advanced checkbox head2 "--------------toolbar--------------" 0
+@advanced color toolbar-color "Toolbar color" #456
+@advanced color toolbar-icons-bg"Toolbar icons bg color" #0000
+@advanced color toolbar-outline-bg "Toolbar outline" #FFFA
+@advanced color toolbar-outline-icons "Toolbar icons outline" #FFF7
+
+@advanced checkbox head3 "------------dark mode------------" 0
+@advanced select dark-mode "Dark page" {
+"Dark mode": "filter: invert(1) hue-rotate(180deg) saturate(2);",
+"White mode*" : ""
+}
+@advanced checkbox light-icons "Light icons" 1
+
+@advanced checkbox head4 "------------Main colors------------" 0
+@advanced range outline-size "Outline size" [1, 0, 10, 1]
+@advanced color outline-color "Outline color" #000
+@advanced color ruler-color "Ruler color" #ADF
+@advanced range dark "Darker background" [0.4, 0, 1, 0.01] 
+@advanced range light "Lighter foreground" [0.85, 0, 1, 0.01]
+
+@advanced checkbox head5 "------------Background------------" 0
+@advanced dropdown bg "Background Image" {
+1 "Cirno*" <<<EOT https://images2.alphacoders.com/548/548207.jpg EOT;
+2 "Miku" <<<EOT https://images3.alphacoders.com/569/thumb-1920-569355.png EOT;
+3 "Custom" <<<EOT /*[[bg-custom1]]*\/ EOT;
+}
+
+@advanced text bg-custom1 "Custom" "https://images7.alphacoders.com/411/thumb-1920-411820.jpg"
+
+@advanced dropdown align "Align background (For huge wallpapers)" {
+1 "Disabled*" <<<EOT EOT;
+2 "Enabled" <<<EOT
+background-position-x: /*[[align-x]]*\/px;
+background-position-y: /*[[align-y]]*\/px;
+EOT;
+}
+
+@advanced range align-x "Align x" [0, -500, 500, 10]
+@advanced range align-y "Align y" [0, -500, 500, 10]
+
+==/UserStyle== */
+@-moz-document url-prefix("https://docs.google.com/document/d/")
+{
+    /*-------------------- Writing a doc --------------------*/
+    /*Color variables*/
+    :root
+    {
+        --theme:                    /*[[theme-color]]*/;
+        --toolbar-color:            /*[[toolbar-color]]*/;
+        --toolbar-outline:          /*[[toolbar-outline-bg]]*/;
+        --toolbar-icons-color:      /*[[toolbar-icons-bg]]*/;
+        --toolbar-icons-outline:    /*[[toolbar-outline-icons]]*/;
+        --header-font-color:        /*[[header-color]]*/;
+        --ruler-color:              /*[[ruler-color]]*/;
+        --main-outline-color:       /*[[outline-color]]*/;
+        --hide:                     Transparent;
+    }
+
+    /*
+    ---Brightness of the background---
+    */
+    .kix-rotatingtilemanager.docs-ui-hit-region-surface
+    {
+        background: linear-gradient(
+                    rgba(0, 0, 0, /*[[dark]]*/),
+                    rgba(0, 0, 0, /*[[dark]]*/)
+                    ),
+                    url(/*[[bg]]*/) bottom fixed no-repeat;
+        
+        background-size: cover;
+        /*[[align]]*/;
+    }
+
+    /*
+    -----------Color pattern-----------
+    */
+    #docs-toolbar-wrapper
+    {
+        background-color: var(--toolbar-color) !important;
+        outline: 1px solid var(--toolbar-outline);
+    }
+
+    #docs-chrome
+    {
+        /*read mode white header bug fix*/
+        background: var(--theme) !important;
+    }
+
+    .docs-omnibox-input.jfk-textinput.assisted-actions-toolbar-omnibox,
+    .docs-grille-gm3 #docs-align-palette .goog-toolbar-button,
+    .docs-grille-gm3 .docs-main-toolbars .goog-toolbar-button,
+    .docs-grille-gm3 .docs-main-toolbars .goog-toolbar-combo-button,
+    .docs-grille-gm3 .docs-main-toolbars .goog-toolbar-menu-button,
+    .docs-grille-gm3 .trix-palette .goog-toolbar-menu-button
+    {
+        margin: 0 6px;
+        background-color: var(--toolbar-icons-color) !important;
+        outline: 1px solid var(--toolbar-icons-outline) !important;
+    }
+
+    .kix-appview-editor,
+    .docs-gm.docsCommonWiz.docs-material.docs-grille-gm3
+    {
+        background-color: var(--theme) !important;
+    }
+
+    .docs-titlebar-buttons
+    {
+        border-radius: 50px;
+    }
+
+    .docs-gm .docs-menubar .goog-control,
+    .docs-title-widget
+    {
+        color: var(--header-font-color) !important;
+    }
+
+    /*
+    --------------light icons--------------
+    */
+    ::placeholder
+    {
+        color: rgba(255, 255, 255, /*[[light-icons]]*/) !important;
+    }
+
+    /*labels firefox*/
+    #\:u,
+    #\:y,
+    
+    /*labels for chrome -> uncomment if it's your browser*/
+    /*  
+    #\:r,
+    #\:v,
+    */
+    
+    .goog-toolbar-menu-button-label,
+    /*navigation button*/
+    #docs-floating-navigation-button-list-icon,
+    .docs-floating-navigation-button-outer-box.goog-inline-block,
+    /*top icons*/
+    .docs-titlebar-badge.goog-inline-block.goog-control,
+    .docs-titlebar-badge-container.docs-star-container.goog-inline-block,
+    .docs-titlebar-badge-container.docs-folder-container.goog-inline-block,
+    /*toolbar*/
+    .docs-grille-gm3 .docs-material .docs-icon-img,
+    .docs-grille-gm3 .docs-main-toolbars .goog-toolbar-combo-button-input,
+    .docs-grille-gm3 #docs-toolbar-mode-switcher .goog-toolbar-menu-button-dropdown
+    {
+        filter: invert(/*[[light-icons]]*/)
+                hue-rotate(180deg) !important;
+    }
+
+    /*
+    ----------Ruler color guide----------
+    */
+    .docs-gm .docs-horizontal-ruler,
+    .docs-gm #kix-vertical-ruler
+    {
+        background: var(--ruler-color) !important;
+        border-color:var(--ruler-color) !important;
+    }
+
+    /*
+    ----------Title backlight----------
+    */
+    .docs-title-input-label.docs-title-untitled
+    {
+        visibility: hidden !important;
+    }
+
+    .docs-title-input
+    {
+        color: var(--header-font-color) !important;
+        text-shadow: rgba(255, 255, 255, /*[[title-lights]]*/) 1px 0 10px;
+    }
+
+    #docs-chrome.docs-material.companion-enabled
+    {
+        background-color: var(--hide);
+    }
+
+    /*
+    -----Brightness of the foreground-----
+    */
+    svg > rect
+    {
+        fill: rgba(255, 255, 255, /*[[light]]*/);
+    }
+
+    svg > rect,
+    canvas
+    {
+        /*[[dark-mode]]*/
+    }
+
+    /*
+    ------Outline of the foreground------
+    */
+    .kix-page-paginated
+    {
+        outline: solid/*[[outline-size]]*/px
+                 var(--main-outline-color);
+    }
+
+    /*-------------------------------------*/
+}
+
+@-moz-document url-prefix("https://docs.google.com/document/u")
+{
+    /*-------------------- Menu --------------------*/
+    /*
+    ----- Dark Background + round corners -----
+    */
+    header,
+    body,
+    .docs-homescreen-homescreenmain,
+    .docs-hs-tmp-sch.docs-hs-tmp-sch-content.docs-hs-tmp-sch-ns.docs-hs-tmp-alwaysvisiblecontentholder,
+    .docs-hs-tmp-sch.docs-hs-tmp-sch-content.docs-hs-tmp-sch-ns.docs-hs-tmp-contractedcontentholder,
+    .docs-homescreen-grid-header,
+    .docs-homescreen-grid-item
+    {
+        background-color: #223 !important;
+    }
+
+    #aso_search_form_anchor,
+    .gb_hd
+    {
+        background-color: #445 !important;
+        border: solid 1px #DDF !important;
+    }
+
+    .gb_kd.gb_od.gb_Fd,
+    .docs-homescreen-itemholder-content.docs-homescreen-floater-header,
+    .docs-homescreen-grid-item-metadata-container,
+    .docs-homescreen-grid-item-thumbnail
+    {
+        background-color:   #334 !important;
+        color:              #DDF;
+        border-radius:      25px;
+    }
+
+    /*
+    ----- Light icons -----
+    */
+    .gb_Kc > svg,
+    .gb_De.gb_af > svg,
+    .gb_A > svg,
+    .gb_sd.gb_ad,
+    .docs-hs-tmp-contractedheader-text,
+    .gb_qe,
+    .gb_pe,
+    .gb_rd.gb_9c,
+    .docs-homescreen-grid-item-title
+    {
+        color: #DDF !important;
+    }
+
+    /*
+    ----- Fix title position-----
+    */
+    .docs-homescreen-floater-header-cell.docs-homescreen-floater-header-title,
+    .docs-hs-tmp-contractedheader-text
+    {
+        margin-left: 20%;
+    }
+
+    /*
+    ----- Hover animation + no ugly borders -----
+    */
+    .gb_Kc > svg:hover,
+    .goog-inline-block.goog-menu-button.docs-homescreen-owner-filter-button,
+    .docs-hs-tmp-contractedheader-more.jfk-button
+    {
+        background-color:   #445;
+        color:              #DDF;
+        border-radius:      25px;
+    }
+
+    .docs-hs-tmp-contractedheader-separator.docs-hs-tmp-common-separator,
+    .docs-homescreen-grid-item,
+    .docs-homescreen-grid-item-metadata-container
+    {
+        border: none;
+    }
+
+    .docs-homescreen-grid-item,
+    .docs-homescreen-templates-templateview.docs-homescreen-templates-templateview-showcase
+    {
+        transition: transform .2s;
+    }
+
+    .docs-homescreen-grid-item.docs-homescreen-item-shared.goog-control-hover,
+    .docs-homescreen-grid-item.goog-control-hover,
+    .docs-homescreen-templates-templateview.docs-homescreen-templates-templateview-showcase.goog-control-hover
+    {
+        border:             none;
+        border-radius:      25px;
+        transform:          scale(1.1);
+    }
+
+    /*-------------------------------------*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
